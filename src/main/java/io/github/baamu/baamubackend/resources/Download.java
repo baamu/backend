@@ -25,7 +25,8 @@ public class Download implements Runnable {
         try {
             url = new URL(link);
             String[] urlData = url.getFile().split("/");
-            file = new File("C:\\Users\\oshan\\Desktop\\"+urlData[urlData.length-1]);
+//            file = new File("C:\\Users\\oshan\\Desktop\\"+urlData[urlData.length-1]);
+            file = new File("C:\\Users\\oshan\\Desktop\\spring_tutorial.mp4");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -38,7 +39,7 @@ public class Download implements Runnable {
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             fileSize = http.getContentLength(); //Bytes
             System.out.println("File : "+file.getName());
-            System.out.println("File Size "+ fileSize +"KB");
+            System.out.println("File Size "+ fileSize +"Bytes");
 
             System.out.println("Headers ");
             System.out.println("/////////////////////////");
@@ -56,16 +57,16 @@ public class Download implements Runnable {
             BufferedInputStream inputStream = new BufferedInputStream(http.getInputStream());
             FileOutputStream fout = new FileOutputStream(file);
             BufferedOutputStream bout = new BufferedOutputStream(fout,1024*1024);
-            byte[] buffer = new byte[1024*1024];
+            byte[] buffer = new byte[1024*1024*5];
             int read=0;
             int readSize = 0;
 
-            while ((read = inputStream.read(buffer,0,1024*1024)) != -1) {
+            while ((read = inputStream.read(buffer,0,1024*1024*5)) != -1) {
                 bout.write(buffer,0,read);
                 downloadedSize += read;
                 readSize += read;
 
-                if(readSize >= 1024 * 1024)     //flushes data on each 1MB
+                if(readSize >= 1024 * 1024 * 5)     //flushes data on each 1MB
                     bout.flush();
 
                 double downloadedPercent = (downloadedSize/fileSize) * 100;
